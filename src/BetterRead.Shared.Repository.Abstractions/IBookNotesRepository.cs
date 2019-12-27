@@ -6,6 +6,6 @@ namespace BetterRead.Shared.Repository.Abstractions
 {
     public interface IBookNotesRepository
     {
-        Task<List<Note>> GetNotes(int bookId);
+        Task<IEnumerable<Note>> GetNotesAsync(int bookId);
     }
 }

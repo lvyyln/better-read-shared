@@ -9,7 +9,7 @@ namespace BetterRead.Shared.Repository
 {
     public class BookInfoRepository : IBookInfoRepository
     {
-        public async Task<BookInfo> GetBookInfo(int bookId)
+        public async Task<BookInfo> GetBookInfoAsync(int bookId)
         {
             var url = string.Format(BookUrlPatterns.General, bookId);
             var htmlDocument = await new HtmlWeb().LoadFromWebAsync(url);

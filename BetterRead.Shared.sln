@@ -10,6 +10,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterRead.Shared.Repositor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterRead.Shared.Common", "src\BetterRead.Shared.Common\BetterRead.Shared.Common.csproj", "{4DD6B4BE-F603-4278-9B91-544E867307BA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterRead.Shared.Services", "src\BetterRead.Shared.Services\BetterRead.Shared.Services.csproj", "{2A7289CC-CCD3-4818-A611-77E76EB3E318}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterRead.Shared.Services.Abstractions", "src\BetterRead.Shared.Services.Abstractions\BetterRead.Shared.Services.Abstractions.csproj", "{89475E54-92AB-47FB-96A4-56BE19FF169B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,11 +36,21 @@ Global
 		{4DD6B4BE-F603-4278-9B91-544E867307BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4DD6B4BE-F603-4278-9B91-544E867307BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4DD6B4BE-F603-4278-9B91-544E867307BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A7289CC-CCD3-4818-A611-77E76EB3E318}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A7289CC-CCD3-4818-A611-77E76EB3E318}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A7289CC-CCD3-4818-A611-77E76EB3E318}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A7289CC-CCD3-4818-A611-77E76EB3E318}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89475E54-92AB-47FB-96A4-56BE19FF169B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89475E54-92AB-47FB-96A4-56BE19FF169B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89475E54-92AB-47FB-96A4-56BE19FF169B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89475E54-92AB-47FB-96A4-56BE19FF169B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{6DA1541D-B662-4BE9-B6F9-BE0B47296AF9} = {C0FCD6CE-94CB-4E9F-873C-A4ADB111292F}
 		{3DEDB8E7-4C4E-4946-89A4-0A45B3A93ADB} = {C0FCD6CE-94CB-4E9F-873C-A4ADB111292F}
 		{A7595D23-96C4-442F-A7E0-74CDE5CCBB74} = {C0FCD6CE-94CB-4E9F-873C-A4ADB111292F}
 		{4DD6B4BE-F603-4278-9B91-544E867307BA} = {C0FCD6CE-94CB-4E9F-873C-A4ADB111292F}
+		{2A7289CC-CCD3-4818-A611-77E76EB3E318} = {C0FCD6CE-94CB-4E9F-873C-A4ADB111292F}
+		{89475E54-92AB-47FB-96A4-56BE19FF169B} = {C0FCD6CE-94CB-4E9F-873C-A4ADB111292F}
 	EndGlobalSection
 EndGlobal

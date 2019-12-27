@@ -10,19 +10,17 @@ namespace BetterRead.Shared.Repository
 {
     public class BookContentsRepository : IBookContentsRepository
     {
-        public async Task<List<Content>> GetContents(int bookId)
+        public async Task<IEnumerable<Content>> GetContentsAsync(int bookId)
         {
             var url = string.Format(BookUrlPatterns.Contents, bookId);
             var htmlDocument = await new HtmlWeb().LoadFromWebAsync(url);
 
             return GetContentsFromNode(htmlDocument.DocumentNode);
         }
-        
-        private static List<Content> GetContentsFromNode(HtmlNode node) =>
-            node
-                .SelectNodes("#oglav_link > li > a")
-                .Select(GetContentFromNode)
-                .ToList();
+
+        private static IEnumerable<Content> GetContentsFromNode(HtmlNode node) =>
+            node.SelectNodes("#oglav_link > li > a")
+                .Select(GetContentFromNode);
 
         private static Content GetContentFromNode(HtmlNode node) =>
             new Content

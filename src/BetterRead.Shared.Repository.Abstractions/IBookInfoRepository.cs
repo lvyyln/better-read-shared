@@ -5,6 +5,6 @@ namespace BetterRead.Shared.Repository.Abstractions
 {
     public interface IBookInfoRepository
     {
-        Task<BookInfo> GetBookInfo(int bookId);
+        Task<BookInfo> GetBookInfoAsync(int bookId);
     }
 }

@@ -8,7 +8,7 @@ namespace BetterRead.Shared.Repository
 {
     public class BookNotesRepository : IBookNotesRepository
     {
-        public Task<List<Note>> GetNotes(int bookId)
+        public Task<IEnumerable<Note>> GetNotesAsync(int bookId)
         {
             var url = string.Format(BookUrlPatterns.Notes, bookId);
             
