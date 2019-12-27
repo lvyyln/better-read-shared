@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using BetterRead.Shared.Domain.Book;
@@ -15,11 +16,13 @@ namespace BetterRead.Shared.Services
         private readonly IBookNotesRepository _notesRepository;
 
         public BookService(
+            IBookInfoRepository infoRepository,
             IBookSheetsRepository sheetsRepository, 
-            IBookInfoRepository infoRepository, 
             IBookContentsRepository contentsRepository, 
             IBookNotesRepository notesRepository)
         {
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+            
             _sheetsRepository = sheetsRepository;
             _infoRepository = infoRepository;
             _contentsRepository = contentsRepository;
@@ -50,16 +53,16 @@ namespace BetterRead.Shared.Services
             var info = _infoRepository.GetBookInfoAsync(bookId);
             var sheets = _sheetsRepository.GetSheetsAsync(bookId);
             var contents = _contentsRepository.GetContentsAsync(bookId);
-            var notes = _notesRepository.GetNotesAsync(bookId);
+            //var notes = _notesRepository.GetNotesAsync(bookId);
             
-            await Task.WhenAll(info, sheets, contents, notes);
+            await Task.WhenAll(info, sheets, contents);
             
             return new Book
             {
                 Info = await info,
                 Sheets = await sheets,
                 Contents = await contents,
-                Notes = await notes
+                //Notes = await notes
             };
         }
     }
