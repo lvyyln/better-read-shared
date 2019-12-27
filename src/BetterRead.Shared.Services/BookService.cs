@@ -21,8 +21,6 @@ namespace BetterRead.Shared.Services
             IBookContentsRepository contentsRepository, 
             IBookNotesRepository notesRepository)
         {
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-            
             _sheetsRepository = sheetsRepository;
             _infoRepository = infoRepository;
             _contentsRepository = contentsRepository;

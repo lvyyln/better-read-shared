@@ -1,3 +1,4 @@
+using System.Text;
 using System.Threading.Tasks;
 using BetterRead.Shared.Repository;
 using BetterRead.Shared.Repository.Abstractions;
@@ -11,6 +12,8 @@ namespace BetterRead.Shared.Services.Tests
         public async Task GetBook_WhenValidUrl_ShouldNotBeNull()
         {
             //Assign
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
             const string bookUrl = "http://loveread.ec/view_global.php?id=45105";
             var sut = GetSut();
             
