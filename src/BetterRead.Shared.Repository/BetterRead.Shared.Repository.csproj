@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\BetterRead.Shared.Common\BetterRead.Shared.Common.csproj" />
+      <ProjectReference Include="..\BetterRead.Shared.Repository.Abstractions\BetterRead.Shared.Repository.Abstractions.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="HtmlAgilityPack" Version="1.11.17" />
+    </ItemGroup>
+
+</Project>
