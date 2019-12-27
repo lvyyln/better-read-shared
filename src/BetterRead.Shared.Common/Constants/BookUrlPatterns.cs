@@ -5,7 +5,7 @@
     /// </summary>
     public static class BookUrlPatterns
     {
-        private const string BaseUrl = "http://loveread.ec";
+        public const string BaseUrl = "http://loveread.ec";
         
         /// <summary>
         /// Book URL pattern: 0 - book ID.
