@@ -17,8 +17,8 @@ jobs:
       - name: dotnet test
         run: dotnet test
 
-      - name: dotnet pack as Release    # dotnet pack, performs a RESTORE, BUILD & PACK
-        run: dotnet pack --configuration Release -p:PackageVersion=${{ env.PKG_VERSION }} -p:Version=${{ env.PKG_VERSION }}
+      - name: dotnet pack as Release
+        run: dotnet pack -c Release -o out 
 
       - name: Install NuGet client
         uses: warrenbuckley/setup-nuget@v1
