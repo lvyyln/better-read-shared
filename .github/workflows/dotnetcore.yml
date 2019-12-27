@@ -18,11 +18,11 @@ jobs:
         run: dotnet pack -c Release -o out  
 
       - name: Install NuGet client
-        uses: nuget/setup-nuget@v1
-        with:
-          nuget-api-key: ${{ secrets.NuGetAPIKey }}
-          nuget-version: '5.x'
-
+        uses: warrenbuckley/setup-nuget@v1
+          
+      - name: Set NuGet ApiKey 
+        run: nuget setApiKey ${{ secrets.NuGetAPIKey }}
+        
       - name: Add private GitHub registry to NuGet
         run: nuget sources add -name "GPR" -Source https://nuget.pkg.github.com/itkerry/index.json -Username itkerry -Password ${{ secrets.GITHUB_TOKEN }}
 
