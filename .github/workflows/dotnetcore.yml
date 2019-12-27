@@ -14,17 +14,23 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@master
 
-      - name: Build solution and generate NuGet package
-        run: dotnet pack -c Release -o out  
+      - name: dotnet test
+        run: dotnet test
+
+      - name: dotnet pack as Release    # dotnet pack, performs a RESTORE, BUILD & PACK
+        run: dotnet pack --configuration Release -p:PackageVersion=${{ env.PKG_VERSION }} -p:Version=${{ env.PKG_VERSION }}
 
       - name: Install NuGet client
         uses: warrenbuckley/setup-nuget@v1
-          
-      - name: Set NuGet ApiKey 
-        run: nuget setApiKey ${{ secrets.NuGetAPIKey }}
-        
+
+      - name: Nuget Add Source to GitHub Package Repo
+        run: nuget sources Add -Name "GitHub" -Source "https://nuget.pkg.github.com/itkerry/index.json" -UserName itkerry -Password ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Nuget SetAPIKey for GitHub Package Repo
+        run: nuget setApiKey ${{ secrets.GITHUB_TOKEN }} -Source "https://nuget.pkg.github.com/itkerry/index.json"
+
       - name: Add private GitHub registry to NuGet
-        run: nuget sources add -name "GPR" -Source https://nuget.pkg.github.com/itkerry/index.json -Username itkerry -Password ${{ secrets.GITHUB_TOKEN }}
+        run: nuget sources add -name "GPR" -Source "https://nuget.pkg.github.com/itkerry/index.json" -Username itkerry -Password ${{ secrets.GITHUB_TOKEN }}
 
       - name: Push generated package to GitHub registry
         run: nuget push .\out\*.nupkg -Source "GPR" -SkipDuplicate
