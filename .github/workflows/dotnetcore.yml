@@ -14,16 +14,30 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@master
 
+      - name: Run tests
+        run: dotnet test
+
       - name: dotnet pack as Release
         run: dotnet pack -c Release -o out 
 
       - name: Install NuGet client
         uses: warrenbuckley/setup-nuget@v1
+      
+      - name: dotnet test
+        run: dotnet test
 
-      - name: Push generated package to GitHub registry
-        run: |
-           for f in ./out/*.nupkg
-           do
-             curl -vX PUT -u "[user]:${{ secrets.GITHUB_TOKEN }}" -F package=@$f https://nuget.pkg.github.com/[user]/
-           done
-        shell: bash
+      - name: dotnet pack as Release
+        run: dotnet pack --configuration Release --output ./output
+
+      - name: Setup Nuget.exe in PATH
+        uses: warrenbuckley/Setup-Nuget@v1
+
+      - name: Nuget Add Source to GitHub Package Repo
+        run: nuget sources Add -Name "GitHub" -Source "https://nuget.pkg.github.com/itkerry/index.json" -UserName itkerry -Password ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Nuget SetAPIKey for GitHub Package Repo
+        run: nuget setApiKey ${{ secrets.GITHUB_TOKEN }} -Source "https://nuget.pkg.github.com/itkerry/index.json"
+
+      - name: Nuget Push to GH Nuget Registry
+        working-directory: './output'
+        run: nuget push *.nupkg -Source "GitHub"
