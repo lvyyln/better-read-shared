@@ -23,8 +23,7 @@ jobs:
         run: dotnet test
 
       - name: dotnet pack as Release
-        working-directory: src/BetterRead.Shared
-        run: dotnet pack BetterRead.Shared.csproj -IncludeReferencedProjects --configuration Release -p:PackageVersion=${{ env.PKG_VERSION }} -p:Version=${{ env.PKG_VERSION }} --output ../../output
+        run: dotnet pack --configuration Release -p:PackageVersion=${{ env.PKG_VERSION }} -p:Version=${{ env.PKG_VERSION }} --output ./output
 
       - name: Setup Nuget.exe in PATH
         uses: warrenbuckley/Setup-Nuget@v1
