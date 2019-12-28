@@ -8,6 +8,8 @@ on:
 jobs:
   build:
     runs-on: windows-latest
+    env:
+      PKG_VERSION: '1.0.0' 
     name: Update NuGet 
     steps:
 
@@ -17,9 +19,6 @@ jobs:
       - name: Run tests
         run: dotnet test
 
-      - name: dotnet pack as Release
-        run: dotnet pack -c Release -o out 
-
       - name: Install NuGet client
         uses: warrenbuckley/setup-nuget@v1
       
@@ -27,7 +26,8 @@ jobs:
         run: dotnet test
 
       - name: dotnet pack as Release
-        run: dotnet pack --configuration Release --output ./output
+        working-directory: src/BetterRead.Shared
+        run: dotnet pack --configuration Release -p:PackageVersion=${{ env.PKG_VERSION }} -p:Version=${{ env.PKG_VERSION }} --output ../../output 
 
       - name: Setup Nuget.exe in PATH
         uses: warrenbuckley/Setup-Nuget@v1
@@ -39,5 +39,5 @@ jobs:
         run: nuget setApiKey ${{ secrets.GITHUB_TOKEN }} -Source "https://nuget.pkg.github.com/itkerry/index.json"
 
       - name: Nuget Push to GH Nuget Registry
-        working-directory: './output'
+        working-directory: '../output'
         run: nuget push *.nupkg -Source "GitHub"
