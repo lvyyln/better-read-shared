@@ -7,12 +7,12 @@ on:
 
 jobs:
   build:
+    name: Update NuGet 
     runs-on: windows-latest
     env:
-      PKG_VERSION: '1.0.0' 
-    name: Update NuGet 
+      PKG_VERSION: '1.0.0.1' 
+   
     steps:
-
       - name: Checkout repository
         uses: actions/checkout@master
 
@@ -24,7 +24,7 @@ jobs:
 
       - name: dotnet pack as Release
         working-directory: src/BetterRead.Shared
-        run: dotnet pack --configuration Release -p:PackageVersion=${{ env.PKG_VERSION }} -p:Version=${{ env.PKG_VERSION }} --output ../../output 
+        run: dotnet pack --configuration Release -p:PackageVersion=${{ env.PKG_VERSION }} -p:Version=${{ env.PKG_VERSION }} --output ../../output -IncludeReferencedProjects
 
       - name: Setup Nuget.exe in PATH
         uses: warrenbuckley/Setup-Nuget@v1
