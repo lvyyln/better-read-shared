@@ -32,4 +32,5 @@ jobs:
         run: nuget setApiKey ${{ secrets.GITHUB_TOKEN }} -Source "https://nuget.pkg.github.com/itkerry/index.json"
 
       - name: nuget Push to GH Nuget Registry
-        run: nuget push './output/*.nupkg' -Source "GPR" -SkipDuplicate
+        working-directory: './output'
+        run: nuget push **/*.nupkg -Source "GPR" -SkipDuplicate
