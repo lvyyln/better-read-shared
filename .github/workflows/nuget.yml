@@ -10,7 +10,7 @@ jobs:
     name: Update NuGet 
     runs-on: windows-latest
     env:
-      PKG_VERSION: '1.0.0.1' 
+      PKG_VERSION: '1.0.1' 
    
     steps:
       - name: Checkout repository
@@ -18,9 +18,6 @@ jobs:
 
       - name: Install NuGet client
         uses: warrenbuckley/setup-nuget@v1
-
-      - name: dotnet test
-        run: dotnet test
 
       - name: dotnet pack as Release
         run: dotnet pack --configuration Release -p:PackageVersion=${{ env.PKG_VERSION }} -p:Version=${{ env.PKG_VERSION }} --output ./output
@@ -35,5 +32,4 @@ jobs:
         run: nuget setApiKey ${{ secrets.GITHUB_TOKEN }} -Source "https://nuget.pkg.github.com/itkerry/index.json"
 
       - name: nuget Push to GH Nuget Registry
-        working-directory: './output'
-        run: nuget push *.nupkg -Source "GPR" -SkipDuplicate
+        run: nuget push './output/*.nupkg' -Source "GPR" -SkipDuplicate
