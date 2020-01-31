@@ -49,7 +49,7 @@ namespace BetterRead.Shared.Services
         public async Task<BookInfo> GetBookInfoByUrlAsync(string url) => 
             await _infoRepository.GetBookInfoAsync(GetBookId(url));
 
-        public async Task<IEnumerable<BookInfo>> GetSearchBooks(string name)=>
+        public async Task<IEnumerable<BookInfo>> SearchBooks(string name)=>
             await _bookSearchRepository.Search(name);
 
         private static int GetBookId(string url)
