@@ -53,7 +53,7 @@ namespace BetterRead.Shared.Services
             var info = _infoRepository.GetBookInfoAsync(bookId);
             var sheets = _sheetsRepository.GetSheetsAsync(bookId);
             var contents = _contentsRepository.GetContentsAsync(bookId);
-            //var notes = _notesRepository.GetNotesAsync(bookId);
+            var notes = _notesRepository.GetNotesAsync(bookId);
             
             await Task.WhenAll(info, sheets, contents);
             
@@ -62,7 +62,7 @@ namespace BetterRead.Shared.Services
                 Info = await info,
                 Sheets = await sheets,
                 Contents = await contents,
-                //Notes = await notes
+                Notes = await notes
             };
         }
     }
