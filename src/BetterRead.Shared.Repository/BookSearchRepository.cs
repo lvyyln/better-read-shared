@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using BetterRead.Shared.Common.Constants;
+using BetterRead.Shared.Common.Helpers;
 using BetterRead.Shared.Domain.Book;
 using BetterRead.Shared.Repository.Abstractions;
 using Fizzler.Systems.HtmlAgilityPack;
@@ -24,7 +25,7 @@ namespace BetterRead.Shared.Repository
             _htmlWeb = new HtmlWeb { OverrideEncoding = Encoding.GetEncoding("windows-1251") };
         }
 
-        public async Task<IEnumerable<BookInfo>> GetSearchBooksByName(string name)
+        public async Task<IEnumerable<BookInfo>> Search(string name)
         {
             var uri = new Uri(BookUrlPatterns.Search);
             var node = await GetNode(uri, name);
@@ -40,7 +41,7 @@ namespace BetterRead.Shared.Repository
             var items = query.SelectMany(x => x.Value, (col, value) => new KeyValuePair<string, string>(col.Key, value)).ToList();
             var qb = new QueryBuilder(items)
             {
-                { "search", GetEncoding(name)}
+                { "search", EncodingHelpers.GetCyrillicEncoding(name)}
             };
             var searchQuery = baseUri + qb.ToQueryString();
             var htmlDocument = await _htmlWeb.LoadFromWebAsync(searchQuery);
@@ -51,11 +52,9 @@ namespace BetterRead.Shared.Repository
 
         private static IEnumerable<BookInfo> GetBooks(HtmlNode node) =>
             node
-                .QuerySelectorAll("ul.let_ul")
-                .First()
+                .QuerySelector("ul.let_ul")
                 .QuerySelectorAll("li[style]")
-                .Select(GetContentFromNode)
-                .ToList();
+                .Select(GetContentFromNode);
 
         private static BookInfo GetContentFromNode(HtmlNode node) =>
             new BookInfo
@@ -67,14 +66,14 @@ namespace BetterRead.Shared.Repository
             };
 
         private static string GetBookName(HtmlNode node) =>
-            node.QuerySelectorAll("a").ElementAt(0).InnerText.Trim();
+            node.QuerySelectorAll("a").FirstOrDefault()?.InnerText.Trim();
 
         private static string GetBookUrl(HtmlNode node) =>
-            $"{BookUrlPatterns.BaseUrl}" +
-            $"{node.QuerySelectorAll("a").ElementAt(0).GetAttributeValue("href", string.Empty)}";
+            $"{BookUrlPatterns.BaseUrl}/" +
+            $"{node.QuerySelectorAll("a").FirstOrDefault()?.GetAttributeValue("href", string.Empty)}";
 
         private static string GetBookAuthor(HtmlNode node) =>
-            node.QuerySelectorAll("a").ElementAt(1).InnerText.Trim();
+            node.QuerySelectorAll("a").LastOrDefault()?.InnerText.Trim();
        
         private static int GetBookId(string url)
         {
@@ -84,8 +83,7 @@ namespace BetterRead.Shared.Repository
             return int.Parse(queryId);
         }
 
-        private string GetEncoding(string name)=>
-            HttpUtility.UrlEncode(name, Encoding.GetEncoding(1251));
+      
 
     }
 }
