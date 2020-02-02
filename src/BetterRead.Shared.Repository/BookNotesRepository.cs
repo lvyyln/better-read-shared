@@ -14,7 +14,6 @@ namespace BetterRead.Shared.Repository
 {
     public class BookNotesRepository : IBookNotesRepository
     {
-        
         private readonly HtmlWeb _htmlWeb;
         public BookNotesRepository()
         {
@@ -39,9 +38,5 @@ namespace BetterRead.Shared.Repository
                 Id = Convert.ToInt32(note.FirstOrDefault()?.InnerText),
                 Contents = note.Skip(1).Select(note => note.InnerText).ToList()
             };
-        
-        
     }
-
-   
 }
