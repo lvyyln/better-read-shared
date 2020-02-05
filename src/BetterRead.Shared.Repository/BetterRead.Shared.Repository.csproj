@@ -2,6 +2,17 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.1</TargetFramework>
+
+        <PackageId>BetterRead.Shared.Repository</PackageId>
+        <Authors>iTKerry</Authors>
+        <Company>iTKerry</Company>
+        <Description>A package for better-read projects</Description>
+        <PackageTags>better-read</PackageTags>
+        <RepositoryUrl>https://github.com/iTKerry/better-read-shared-cs</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        <FileVersion>1.0.0.0</FileVersion>
     </PropertyGroup>
 
     <ItemGroup>
@@ -12,6 +23,8 @@
     <ItemGroup>
       <PackageReference Include="Fizzler.Systems.HtmlAgilityPack" Version="1.2.0" />
       <PackageReference Include="HtmlAgilityPack" Version="1.11.17" />
+      <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.2.0" />
+      <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
       <PackageReference Include="System.Text.Encoding.CodePages" Version="4.3.0" />
     </ItemGroup>
 

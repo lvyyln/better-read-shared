@@ -1,5 +1,5 @@
+﻿using System.Text;
 using System.Threading.Tasks;
-using BetterRead.Shared.Repository;
 using BetterRead.Shared.Repository.Abstractions;
 using Xunit;
 
@@ -11,6 +11,8 @@ namespace BetterRead.Shared.Services.Tests
         public async Task GetBook_WhenValidUrl_ShouldNotBeNull()
         {
             //Assign
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
             const string bookUrl = "http://loveread.ec/view_global.php?id=45105";
             var sut = GetSut();
             
@@ -21,18 +23,29 @@ namespace BetterRead.Shared.Services.Tests
             Assert.NotNull(book);
         }
 
-        private static BookService GetSut(
-            IBookInfoRepository infoRepository = null,
-            IBookSheetsRepository sheetsRepository = null,
-            IBookContentsRepository contentsRepository = null,
-            IBookNotesRepository notesRepository = null)
+        [Fact]
+        public async Task GetSearchBooks_WhenValidName_ShouldNotBeNull()
         {
-            if (infoRepository == null) infoRepository = new BookInfoRepository();
-            if (sheetsRepository == null) sheetsRepository = new BookSheetsRepository();
-            if (contentsRepository == null) contentsRepository = new BookContentsRepository();
-            if (notesRepository == null) notesRepository = new BookNotesRepository();
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+            //Assign
+            var sut = GetSut();
 
-            return new BookService(infoRepository, sheetsRepository, contentsRepository, notesRepository);
+            //Act
+            var books = await sut.SearchBooks("Война миров");
+
+            //Assert
+            Assert.NotNull(books);
         }
+
+        private static BookService GetSut() => 
+            new BookService();
+
+        private static BookService GetSut(
+            IBookInfoRepository infoRepository,
+            IBookSheetsRepository sheetsRepository,
+            IBookContentsRepository contentsRepository,
+            IBookNotesRepository notesRepository,
+            IBookSearchRepository bookSearchRepository) =>
+            new BookService(infoRepository, sheetsRepository, contentsRepository, notesRepository, bookSearchRepository);
     }
 }
