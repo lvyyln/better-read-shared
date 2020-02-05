@@ -52,8 +52,7 @@ namespace BetterRead.Shared.Repository
 
         private static IEnumerable<BookInfo> GetBooks(HtmlNode node) =>
             node
-                .QuerySelector("ul.let_ul")
-                .QuerySelectorAll("li[style]")
+                .QuerySelectorAll("ul.let_ul > li[style]")
                 .Select(GetContentFromNode);
 
         private static BookInfo GetContentFromNode(HtmlNode node) =>
