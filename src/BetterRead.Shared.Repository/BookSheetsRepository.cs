@@ -56,9 +56,6 @@ namespace BetterRead.Shared.Repository
                 if (node.Attributes.Any(attr => attr.Value == "MsoNormal"))
                     yield return GetParagraphSheetContent(node);
 
-                if (node.ChildNodes.Any(childNode => childNode.Name == "b"))
-                    yield return GetParagraphWithHyperLinkSheetContent(node, "b");
-
                 if (node.ChildNodes.Any(childNode => childNode.Name == "a"))
                     yield return GetParagraphWithHyperLinkSheetContent(node, "a");
 
@@ -79,17 +76,13 @@ namespace BetterRead.Shared.Repository
         private static SheetContent GetParagraphWithHyperLinkSheetContent(string text) =>
             new SheetContent(text, SheetContentType.HyperLink);
 
-        private static SheetContent GetParagraphWithHyperLinkSheetContent(HtmlNode node, string type)
-        {
-            if (type == "a")
-                return new SheetContent(node.ChildNodes
-                                            .FirstOrDefault(child =>
-                                                child.Name == "a" &&
-                                                child.Attributes.Any(attr => attr.Value.StartsWith("gl")))?.Attributes
-                                            .FirstOrDefault()?.Value ?? "", SheetContentType.HyperLink);
-            return new SheetContent(node.ChildNodes
-                    .FirstOrDefault(child => child.Name == "b")?.InnerHtml, SheetContentType.HyperLinkNote);
-        }
+        private static SheetContent GetParagraphWithHyperLinkSheetContent(HtmlNode node, string type) =>
+            new SheetContent(node.ChildNodes
+                                 .FirstOrDefault(child =>
+                                     child.Name == "a" &&
+                                     child.Attributes.Any(attr => attr.Value.StartsWith("gl")))?.Attributes
+                                 .FirstOrDefault()?.Value ?? "", SheetContentType.HyperLink);
+
 
         private static SheetContent GetImageSheetContent(HtmlNode node, string baseUrl)
         {
