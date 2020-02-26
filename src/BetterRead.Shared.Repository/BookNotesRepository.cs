@@ -1,10 +1,10 @@
-﻿﻿using System.Collections.Generic;
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BetterRead.Shared.Common.Constants;
+using BetterRead.Shared.Common.Helpers;
 using BetterRead.Shared.Domain.Book;
 using BetterRead.Shared.Repository.Abstractions;
 using Fizzler.Systems.HtmlAgilityPack;
