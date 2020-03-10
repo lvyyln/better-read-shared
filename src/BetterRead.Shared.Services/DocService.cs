@@ -5,6 +5,7 @@ using BetterRead.Shared.Domain.Book;
 using Xceed.Document.NET;
 using Xceed.Words.NET;
 using System.Drawing;
+using BetterRead.Shared.Common.Helpers;
 
 
 namespace BetterRead.Shared.Services
@@ -104,12 +105,12 @@ namespace BetterRead.Shared.Services
             var h3 = doc.AddHyperlink(text, bookmarkAnchor);
             var p3 = doc.InsertParagraph();
             p3.IndentationBefore = indentation;
-            p3.AppendHyperlink(h3).Font("Italic").FontSize(fontSize).Color( Color.Blue ).UnderlineStyle( UnderlineStyle.singleLine );
+            p3.AddLinkToParagraph(h3,fontSize);
         }
 
         private void InsertHyperLink(DocX doc, string text)
         {
-            if (text == "") return;
+            if (String.IsNullOrEmpty(text)) return;
             var paragraph = doc.InsertParagraph();
             paragraph.AppendBookmark( text );
         }
