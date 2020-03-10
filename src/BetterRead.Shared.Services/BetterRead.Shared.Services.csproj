@@ -2,10 +2,22 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.1</TargetFramework>
+
+        <PackageId>BetterRead.Shared.Services</PackageId>
+        <Authors>iTKerry</Authors>
+        <Company>iTKerry</Company>
+        <Description>A package for better-read projects</Description>
+        <PackageTags>better-read</PackageTags>
+        <RepositoryUrl>https://github.com/iTKerry/better-read-shared-cs</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        <FileVersion>1.0.0.0</FileVersion>
     </PropertyGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\BetterRead.Shared.Repository.Abstractions\BetterRead.Shared.Repository.Abstractions.csproj" />
+      <ProjectReference Include="..\BetterRead.Shared.Repository\BetterRead.Shared.Repository.csproj" />
       <ProjectReference Include="..\BetterRead.Shared.Services.Abstractions\BetterRead.Shared.Services.Abstractions.csproj" />
     </ItemGroup>
 

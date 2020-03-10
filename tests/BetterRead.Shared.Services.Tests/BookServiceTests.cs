@@ -1,5 +1,5 @@
+using System.Text;
 using System.Threading.Tasks;
-using BetterRead.Shared.Repository;
 using BetterRead.Shared.Repository.Abstractions;
 using Xunit;
 
@@ -54,8 +54,6 @@ namespace BetterRead.Shared.Services.Tests
         {
             if (downloadService == null) downloadService = new DownloadService();
             return new DocService(downloadService);
-        }
-        
-       
+        }      
     }
 }
