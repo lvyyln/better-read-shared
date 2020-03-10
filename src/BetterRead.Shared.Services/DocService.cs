@@ -96,7 +96,12 @@ namespace BetterRead.Shared.Services
                 indentation = 0f;
                 fontSize = 19;
             }
-            var h3 = doc.AddHyperlink(note.Text, bookmarkAnchor);
+            CreateHyperLink(indentation,fontSize,bookmarkAnchor,note.Text,doc);
+        }
+
+        private void CreateHyperLink(float indentation, double fontSize, string bookmarkAnchor, string text, DocX doc)
+        {
+            var h3 = doc.AddHyperlink(text, bookmarkAnchor);
             var p3 = doc.InsertParagraph();
             p3.IndentationBefore = indentation;
             p3.AppendHyperlink(h3).Font("Italic").FontSize(fontSize).Color( Color.Blue ).UnderlineStyle( UnderlineStyle.singleLine );
@@ -110,7 +115,7 @@ namespace BetterRead.Shared.Services
         }
         private void InsertParagraph(DocX doc, string text)
         {
-            if (text == "") return;
+            if (string.IsNullOrEmpty(text)) return;
             var paragraph = doc.InsertParagraph();
             paragraph.Append(text).IndentationFirstLine = 1;
             paragraph.SpacingAfter(5);
