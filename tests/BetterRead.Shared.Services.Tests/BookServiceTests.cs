@@ -1,5 +1,6 @@
 using System.Text;
 using System.Threading.Tasks;
+using BetterRead.Shared.Repository;
 using BetterRead.Shared.Repository.Abstractions;
 using Xunit;
 
