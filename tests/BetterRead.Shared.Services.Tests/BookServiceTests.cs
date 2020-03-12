@@ -16,7 +16,7 @@ namespace BetterRead.Shared.Services.Tests
             
             //Act
             var book = await sut.GetBookByUrlAsync(bookUrl);
-
+            
             //Assert
             Assert.NotNull(book);
         }

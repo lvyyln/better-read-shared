@@ -23,28 +23,29 @@ namespace BetterRead.Shared.Services
             var url = String.Format(_startaddress, searchTerm);
             var pagesCount = await GetPagesCountAsync(url);
             Task<SearchResult>[] answer = new Task<SearchResult>[pagesCount];
-            
+
             for (int i = 0; i < pagesCount; i++)
             {
                 answer[i] = GetPageAsync(String.Format(_address, i, searchTerm));
             }
-            
+
             Task.WaitAll(answer);
             return answer.SelectMany(ans => ans.Result.results).ToArray();
         }
 
         private async Task<SearchResult> GetPageAsync(string url)
         {
-            using var client = new HttpClient();
-            var jsonAnswer = DeleteCallBackName(await client.GetStringAsync(url));
-            var result = JsonConvert.DeserializeObject<SearchResult>(jsonAnswer);
-            return result;
+            using (var client = new HttpClient())
+            {
+                var jsonAnswer = DeleteCallBackName(await client.GetStringAsync(new Uri(url)));
+                return JsonConvert.DeserializeObject<SearchResult>(jsonAnswer);
+            }
         }
 
         private async Task<int> GetPagesCountAsync(string url)
         {
             using var client = new HttpClient();
-            var jsonAnswer = DeleteCallBackName(await client.GetStringAsync(url));
+            var jsonAnswer = DeleteCallBackName(await client.GetStringAsync(new Uri(url)));
             return JsonConvert.DeserializeObject<SearchResult>(jsonAnswer).cursor.pages.Count;
         }
 

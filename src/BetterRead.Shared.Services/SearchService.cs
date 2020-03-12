@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using BetterRead.Shared.Domain.Author;
 using BetterRead.Shared.Domain.Book;
@@ -11,7 +12,6 @@ namespace BetterRead.Shared.Services
     {
         private readonly string BookUrl = ($"loveread.ec/view_global.php?id=");
         private readonly IFetchService _fetchService;
-        private List<string> check = new List<string>();
 
         public SearchService(IFetchService fetchService)
         {
@@ -20,11 +20,17 @@ namespace BetterRead.Shared.Services
 
         public async Task<Book[]> SearchBooksAsync(string bookName)
         {
-            check.Add("зашел");
             var result = await _fetchService.GetDataAsync(bookName);
-            check.Add("вышел");
-            var books = result.Where(rs => rs.formattedUrl.Contains(BookUrl) && rs.title.Contains(bookName));
-            return null;
+            var booksData = result.Where(rs => rs.formattedUrl.Contains(BookUrl) && rs.titleNoFormatting.Contains(bookName));
+            
+            return booksData.Select(book => new Book()
+            {
+                Info = new BookInfo()
+                {
+                    Name = book.titleNoFormatting,
+                    Author = book.contentNoFormatting
+                }
+            }).ToArray();
         }
 
         public Task<Author[]> SearchAuthorAsync(string bookName)
@@ -35,6 +41,12 @@ namespace BetterRead.Shared.Services
         public Task<AuthorSeries[]> SearchSeriesBookAsync(string bookName)
         {
             throw new System.NotImplementedException();
+        }
+
+        private string GetTitle(string regexString, string toMatch)
+        {
+            var regex = new Regex(regexString);
+            return regex.Matches(toMatch)[0].Value;
         }
     }
 }
