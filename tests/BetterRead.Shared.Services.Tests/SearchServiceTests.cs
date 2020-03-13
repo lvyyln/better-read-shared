@@ -7,16 +7,24 @@ namespace BetterRead.Shared.Services.Tests
     public class SearchServiceTests
     {
         [Fact]
-        public async Task GetBook_WhenValidUrl_ShouldNotBeNull()
+        public async void GetBook_ShouldNotBeNull()
         {
             //Assign
             var sut = GetSut();
-            
             //Act
             var book = await sut.SearchBooksAsync("Тест");
-            
             //Assert
             Assert.NotNull(book);
+        }
+
+        [Fact]
+        public async void GetAuthor_ShouldNotBeNull()
+        {
+            var sut = GetSut();
+            //Act
+            var authors = await sut.SearchAuthorAsync("Олег");
+            
+            Assert.NotNull(authors);
         }
         private static SearchService GetSut()
         {

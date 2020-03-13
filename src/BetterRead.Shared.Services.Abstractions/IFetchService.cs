@@ -5,6 +5,6 @@ namespace BetterRead.Shared.Services.Abstractions
 {
     public interface IFetchService
     {
-        Task<Result[]> GetDataAsync(string searchTerm);
+        Task<Result[]> GetDataAsync(string searchTerm, string address);
     }
 }
