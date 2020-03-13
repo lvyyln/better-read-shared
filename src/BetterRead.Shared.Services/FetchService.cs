@@ -23,7 +23,7 @@ namespace BetterRead.Shared.Services
                 answer[i] = GetPageAsync(String.Format(address, i, searchTerm));
             }
 
-            await Task.WhenAll(answer);
+            Task.WaitAll(answer);
             return answer.SelectMany(ans => ans.Result.results).ToArray();
         }
 
