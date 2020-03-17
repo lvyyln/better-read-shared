@@ -30,7 +30,7 @@ namespace BetterRead.Shared.Services
             _fetchService = fetchService;
         }
 
-        public async Task<Book[]> SearchBooksAsync(string bookName)
+        public async Task<List<Book>> SearchBooksAsync(string bookName)
         {
             var booksData = await Search(bookName, _addressForBooks, BookUrl);
             return booksData.Select(book => new Book()
@@ -41,27 +41,27 @@ namespace BetterRead.Shared.Services
                     Author = book.titleNoFormatting.Split("Автор:")[0],
                     Url = book.formattedUrl
                 }
-            }).ToArray();
+            }).ToList();
         }
 
-        public async Task<Author[]> SearchAuthorAsync(string authorName)
+        public async Task<List<Author>> SearchAuthorAsync(string authorName)
         {
             var authorsData = await Search(authorName, _addressForAuthors, AuthorUrl);
             return authorsData.Select(book => new Author()
             {
                 AuthorName = book.titleNoFormatting.Split("-")[0],
                 AuthorId = book.formattedUrl.Split("=")[1],
-            }).ToArray();
+            }).ToList();
         }
 
-        public async Task<AuthorSeries[]> SearchSeriesBookAsync(string seriesName)
+        public async Task<List<AuthorSeries>> SearchSeriesBookAsync(string seriesName)
         {
             var booksData = await Search(seriesName, _addressForBooks, BookUrl);
             return booksData.Select(series => new AuthorSeries()
             {
                 CollectionName = series.titleNoFormatting,
                 CollectionUrl = series.formattedUrl
-            }).ToArray();
+            }).ToList();
         }
 
         private async Task<Result[]> Search(string name, string address, string urlType)

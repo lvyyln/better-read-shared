@@ -12,19 +12,17 @@ namespace BetterRead.Shared.Services
 {
     public class FetchService : IFetchService
     {
-        public async Task<Result[]> GetDataAsync(string searchTerm, string address)
+        public async Task<List<Result>> GetDataAsync(string searchTerm, string address)
         {
             var url = String.Format(address, 1, searchTerm);
             var pagesCount = await GetPagesCountAsync(url);
-            Task<SearchResult>[] answer = new Task<SearchResult>[pagesCount];
+            var answer = new Task<SearchResult>[pagesCount];
 
-            for (int i = 0; i < pagesCount; i++)
-            {
-                answer[i] = GetPageAsync(String.Format(address, i, searchTerm));
-            }
-
-            Task.WaitAll(answer);
-            return answer.SelectMany(ans => ans.Result.results).ToArray();
+            var tasks = answer.Select((value, index) => 
+                GetPageAsync(String.Format(address, index, searchTerm))).ToArray();
+            
+            Task.WaitAll(tasks);
+            return tasks.SelectMany(ans => ans.Result.results).ToList();
         }
 
         private async Task<SearchResult> GetPageAsync(string url)
