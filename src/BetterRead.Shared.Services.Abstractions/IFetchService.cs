@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BetterRead.Shared.Domain.Search;
+using QuickType;
 
 namespace BetterRead.Shared.Services.Abstractions
 {

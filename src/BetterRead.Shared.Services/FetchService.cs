@@ -2,11 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using BetterRead.Shared.Domain.Search;
 using BetterRead.Shared.Services.Abstractions;
 using Newtonsoft.Json;
+using QuickType;
 
 namespace BetterRead.Shared.Services
 {
@@ -22,7 +21,7 @@ namespace BetterRead.Shared.Services
                 GetPageAsync(String.Format(address, index, searchTerm))).ToArray();
             
             Task.WaitAll(tasks);
-            return tasks.SelectMany(ans => ans.Result.results).ToList();
+            return tasks.SelectMany(ans => ans.Result.Results).ToList();
         }
 
         private async Task<SearchResult> GetPageAsync(string url)
@@ -39,7 +38,7 @@ namespace BetterRead.Shared.Services
             using (var client = new HttpClient())
             {
                 var jsonAnswer = DeleteCallBackName(await client.GetStringAsync(url));
-                return JsonConvert.DeserializeObject<SearchResult>(jsonAnswer).cursor.pages.Count;
+                return JsonConvert.DeserializeObject<SearchResult>(jsonAnswer).Cursor.Pages.Count();
             }
         }
 

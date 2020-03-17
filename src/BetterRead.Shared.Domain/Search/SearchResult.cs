@@ -1,78 +1,189 @@
 using System;
-using System.Collections.Generic;
+using System.Globalization;
 using Newtonsoft.Json;
-
-namespace BetterRead.Shared.Domain.Search
+using Newtonsoft.Json.Converters;
+namespace QuickType
 {
-    public class Page
+    public partial class SearchResult
     {
-        public int label { get; set; }
-        public string start { get; set; }
+        [JsonProperty("cursor")]
+        public Cursor Cursor { get; set; }
+
+        [JsonProperty("context")]
+        public Context Context { get; set; }
+
+        [JsonProperty("results")]
+        public Result[] Results { get; set; }
+
+        [JsonProperty("findMoreOnGoogle")]
+        public FindMoreOnGoogle FindMoreOnGoogle { get; set; }
     }
 
-    public class Cursor
+    public partial class Context
     {
-        public int currentPageIndex { get; set; }
-        public string estimatedResultCount { get; set; }
-        public string moreResultsUrl { get; set; }
-        public string resultCount { get; set; }
-        public string searchResultTime { get; set; }
-        public List<Page> pages { get; set; }
+        [JsonProperty("title")]
+        public string Title { get; set; }
+
+        [JsonProperty("total_results")]
+        [JsonConverter(typeof(ParseStringConverter))]
+        public long TotalResults { get; set; }
     }
 
-    public class Context
+    public partial class Cursor
     {
-        public string title { get; set; }
-        public string total_results { get; set; }
+        [JsonProperty("currentPageIndex")]
+        public long CurrentPageIndex { get; set; }
+
+        [JsonProperty("estimatedResultCount")]
+        [JsonConverter(typeof(ParseStringConverter))]
+        public long EstimatedResultCount { get; set; }
+
+        [JsonProperty("moreResultsUrl")]
+        public Uri MoreResultsUrl { get; set; }
+
+        [JsonProperty("resultCount")]
+        [JsonConverter(typeof(ParseStringConverter))]
+        public long ResultCount { get; set; }
+
+        [JsonProperty("searchResultTime")]
+        public string SearchResultTime { get; set; }
+
+        [JsonProperty("pages")]
+        public Page[] Pages { get; set; }
     }
 
-    public class CseImage
+    public partial class Page
     {
-        public string src { get; set; }
+        [JsonProperty("label")]
+        public long Label { get; set; }
+
+        [JsonProperty("start")]
+        [JsonConverter(typeof(ParseStringConverter))]
+        public long Start { get; set; }
     }
 
-    public class Metatags
+    public partial class FindMoreOnGoogle
     {
-        public string msapplicationTileimage { get; set; }
-        public string msapplicationTilecolor { get; set; }
-        public string appleMobileWebAppTitle { get; set; }
-        public string msapplicationConfig { get; set; }
-        public string applicationName { get; set; }
+        [JsonProperty("url")]
+        public Uri Url { get; set; }
     }
 
-    public class CseThumbnail
+    public partial class Result
     {
-        public string src { get; set; }
-        public string width { get; set; }
-        public string height { get; set; }
+        [JsonProperty("cacheUrl")]
+        public Uri CacheUrl { get; set; }
+
+        [JsonProperty("clicktrackUrl")]
+        public Uri ClicktrackUrl { get; set; }
+
+        [JsonProperty("content")]
+        public string Content { get; set; }
+
+        [JsonProperty("contentNoFormatting")]
+        public string ContentNoFormatting { get; set; }
+
+        [JsonProperty("title")]
+        public string Title { get; set; }
+
+        [JsonProperty("titleNoFormatting")]
+        public string TitleNoFormatting { get; set; }
+
+        [JsonProperty("formattedUrl")]
+        public string FormattedUrl { get; set; }
+
+        [JsonProperty("unescapedUrl")]
+        public Uri UnescapedUrl { get; set; }
+
+        [JsonProperty("url")]
+        public Uri Url { get; set; }
+
+        [JsonProperty("visibleUrl")]
+        public string VisibleUrl { get; set; }
+
+        [JsonProperty("richSnippet")]
+        public RichSnippet RichSnippet { get; set; }
     }
 
-    public class RichSnippet
+    public partial class RichSnippet
     {
-        public CseImage cseImage { get; set; }
-        public Metatags metatags { get; set; }
-        public CseThumbnail cseThumbnail { get; set; }
-    }
-    
-    public class Result
-    {
-        public string cacheUrl { get; set; }
-        public string clicktrackUrl { get; set; }
-        public string content { get; set; }
-        public string contentNoFormatting { get; set; }
-        public string title { get; set; }
-        public string titleNoFormatting { get; set; }
-        public string formattedUrl { get; set; }
-        public string unescapedUrl { get; set; }
-        public string url { get; set; }
-        public string visibleUrl { get; set; }
-        public RichSnippet richSnippet { get; set; }
+        [JsonProperty("cseImage")]
+        public CseImage CseImage { get; set; }
+
+        [JsonProperty("cseThumbnail")]
+        public CseThumbnail CseThumbnail { get; set; }
     }
 
-    public class SearchResult
+    public partial class CseImage
     {
-        public Cursor cursor { get; set; }
-        public Context context { get; set; }
-        public List<Result> results { get; set; }
+        [JsonProperty("src")]
+        public Uri Src { get; set; }
+    }
+
+    public partial class CseThumbnail
+    {
+        [JsonProperty("src")]
+        public Uri Src { get; set; }
+
+        [JsonProperty("width")]
+        [JsonConverter(typeof(ParseStringConverter))]
+        public long Width { get; set; }
+
+        [JsonProperty("height")]
+        [JsonConverter(typeof(ParseStringConverter))]
+        public long Height { get; set; }
+    }
+
+    public partial class SearchResult
+    {
+        public static SearchResult FromJson(string json) => JsonConvert.DeserializeObject<SearchResult>(json, QuickType.Converter.Settings);
+    }
+
+    public static class Serialize
+    {
+        public static string ToJson(this SearchResult self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
+    }
+
+    internal static class Converter
+    {
+        public static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
+        {
+            MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
+            DateParseHandling = DateParseHandling.None,
+            Converters =
+            {
+                new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal }
+            },
+        };
+    }
+
+    internal class ParseStringConverter : JsonConverter
+    {
+        public override bool CanConvert(Type t) => t == typeof(long) || t == typeof(long?);
+
+        public override object ReadJson(JsonReader reader, Type t, object existingValue, JsonSerializer serializer)
+        {
+            if (reader.TokenType == JsonToken.Null) return null;
+            var value = serializer.Deserialize<string>(reader);
+            long l;
+            if (Int64.TryParse(value, out l))
+            {
+                return l;
+            }
+            throw new Exception("Cannot unmarshal type long");
+        }
+
+        public override void WriteJson(JsonWriter writer, object untypedValue, JsonSerializer serializer)
+        {
+            if (untypedValue == null)
+            {
+                serializer.Serialize(writer, null);
+                return;
+            }
+            var value = (long)untypedValue;
+            serializer.Serialize(writer, value.ToString());
+            return;
+        }
+
+        public static readonly ParseStringConverter Singleton = new ParseStringConverter();
     }
 }
