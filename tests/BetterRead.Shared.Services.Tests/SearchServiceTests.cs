@@ -26,6 +26,16 @@ namespace BetterRead.Shared.Services.Tests
             
             Assert.NotNull(authors);
         }
+        
+        [Fact]
+        public async void GetSeries_ShouldNotBeNull()
+        {
+            var sut = GetSut();
+            //Act
+            var series = await sut.SearchSeriesBookAsync("Олег");
+            
+            Assert.NotNull(series);
+        }
         private static SearchService GetSut()
         {
             return new SearchService(new FetchService());

@@ -40,7 +40,7 @@ namespace BetterRead.Shared.Services
         {
             using (var client = new HttpClient())
             {
-                var jsonAnswer = DeleteCallBackName(await client.GetStringAsync(new Uri(url)));
+                var jsonAnswer = DeleteCallBackName(await client.GetStringAsync(url));
                 return JsonConvert.DeserializeObject<SearchResult>(jsonAnswer).cursor.pages.Count;
             }
         }
