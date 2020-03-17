@@ -13,7 +13,7 @@ namespace QuickType
         public Context Context { get; set; }
 
         [JsonProperty("results")]
-        public Result[] Results { get; set; }
+        public Result[] SearchResults { get; set; }
 
         [JsonProperty("findMoreOnGoogle")]
         public FindMoreOnGoogle FindMoreOnGoogle { get; set; }

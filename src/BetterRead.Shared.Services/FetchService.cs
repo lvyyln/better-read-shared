@@ -21,7 +21,7 @@ namespace BetterRead.Shared.Services
                 GetPageAsync(String.Format(address, index, searchTerm))).ToArray();
             
             Task.WaitAll(tasks);
-            return tasks.SelectMany(ans => ans.Result.Results).ToList();
+            return tasks.SelectMany(ans => ans.Result.SearchResults).ToList();
         }
 
         private async Task<SearchResult> GetPageAsync(string url)
