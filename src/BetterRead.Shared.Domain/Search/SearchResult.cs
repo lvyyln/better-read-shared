@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -13,7 +14,7 @@ namespace QuickType
         public Context Context { get; set; }
 
         [JsonProperty("results")]
-        public Result[] SearchResults { get; set; }
+        public List<Result> SearchResults { get; set; }
 
         [JsonProperty("findMoreOnGoogle")]
         public FindMoreOnGoogle FindMoreOnGoogle { get; set; }
