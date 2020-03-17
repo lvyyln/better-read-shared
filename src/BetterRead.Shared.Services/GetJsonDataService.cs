@@ -5,7 +5,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using BetterRead.Shared.Services.Abstractions;
 using Newtonsoft.Json;
-using QuickType;
+using BetterRead.Shared.Domain.Search;
 
 namespace BetterRead.Shared.Services
 {
@@ -15,7 +15,7 @@ namespace BetterRead.Shared.Services
         {
             var url = String.Format(address, 1, searchTerm);
             var pagesCount = await GetPagesCountAsync(url);
-            var answer = new Task<SearchResult>[pagesCount];
+            var answer = new Task<CseGoogleResponse>[pagesCount];
 
             var tasks = answer.Select((value, index) => 
                 GetPageAsync(String.Format(address, index, searchTerm))).ToArray();
@@ -24,12 +24,12 @@ namespace BetterRead.Shared.Services
             return tasks.SelectMany(ans => ans.Result.SearchResults).ToList();
         }
 
-        private async Task<SearchResult> GetPageAsync(string url)
+        private async Task<CseGoogleResponse> GetPageAsync(string url)
         {
             using (var client = new HttpClient())
             {
                 var jsonAnswer = DeleteCallBackName(await client.GetStringAsync(new Uri(url)));
-                return JsonConvert.DeserializeObject<SearchResult>(jsonAnswer);
+                return JsonConvert.DeserializeObject<CseGoogleResponse>(jsonAnswer);
             }
         }
 
@@ -38,7 +38,7 @@ namespace BetterRead.Shared.Services
             using (var client = new HttpClient())
             {
                 var jsonAnswer = DeleteCallBackName(await client.GetStringAsync(url));
-                return JsonConvert.DeserializeObject<SearchResult>(jsonAnswer).Cursor.Pages.Count();
+                return JsonConvert.DeserializeObject<CseGoogleResponse>(jsonAnswer).Cursor.Pages.Count();
             }
         }
 

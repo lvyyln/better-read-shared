@@ -6,7 +6,7 @@ using BetterRead.Shared.Common.Constants;
 using BetterRead.Shared.Domain.Author;
 using BetterRead.Shared.Domain.Book;
 using BetterRead.Shared.Services.Abstractions;
-using QuickType;
+using BetterRead.Shared.Domain.Search;
 
 namespace BetterRead.Shared.Services
 {
