@@ -12,11 +12,11 @@ namespace BetterRead.Shared.Services
 {
     public class SearchService : ISearchService
     {
-        private readonly IFetchService _fetchService;
+        private readonly IGetJsonDataService _getJsonDataService;
 
-        public SearchService(IFetchService fetchService)
+        public SearchService(IGetJsonDataService getJsonDataService)
         {
-            _fetchService = fetchService;
+            _getJsonDataService = getJsonDataService;
         }
 
         public async Task<List<Book>> SearchBooksAsync(string bookName)
@@ -55,7 +55,7 @@ namespace BetterRead.Shared.Services
 
         private async Task<List<Result>> Search(string name, string address, string urlType)
         {
-            var result = await _fetchService.GetDataAsync(name, address);
+            var result = await _getJsonDataService.GetDataAsync(name, address);
             return result.Where(rs =>
                 rs.FormattedUrl.ToLower().Contains(urlType) &&
                 rs.TitleNoFormatting.ToLower().Contains((name).ToLower())).ToList();

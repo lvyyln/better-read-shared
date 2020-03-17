@@ -4,7 +4,7 @@ using QuickType;
 
 namespace BetterRead.Shared.Services.Abstractions
 {
-    public interface IFetchService
+    public interface IGetJsonDataService
     {
         Task<List<Result>> GetDataAsync(string searchTerm, string address);
     }

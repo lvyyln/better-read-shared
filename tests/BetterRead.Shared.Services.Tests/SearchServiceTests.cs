@@ -38,7 +38,7 @@ namespace BetterRead.Shared.Services.Tests
         }
         private static SearchService GetSut()
         {
-            return new SearchService(new FetchService());
+            return new SearchService(new GetJsonDataService());
         }
     }
 }

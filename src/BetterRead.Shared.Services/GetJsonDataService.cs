@@ -9,7 +9,7 @@ using QuickType;
 
 namespace BetterRead.Shared.Services
 {
-    public class FetchService : IFetchService
+    public class GetJsonDataService : IGetJsonDataService
     {
         public async Task<List<Result>> GetDataAsync(string searchTerm, string address)
         {
