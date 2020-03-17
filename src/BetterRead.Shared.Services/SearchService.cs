@@ -56,7 +56,7 @@ namespace BetterRead.Shared.Services
             return authorsData.Select(book => new Author()
             {
                 AuthorName = book.titleNoFormatting,
-                AuthorId = book.formattedUrl
+                AuthorId = book.formattedUrl,
             }).ToArray();
         }
 
