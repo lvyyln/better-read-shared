@@ -45,20 +45,20 @@ namespace BetterRead.Shared.Services
 
         public async Task<List<AuthorSeries>> SearchSeriesBookAsync(string seriesName)
         {
-            var booksData = await Search(seriesName, ApiUrls.addressForBooks, SearchPatterns.BookUrl);
-            return booksData.Select(series => new AuthorSeries()
+            var seriesData = await Search(seriesName, ApiUrls.addressForSeries, SearchPatterns.SeriesUrl);
+            return seriesData.Select(series => new AuthorSeries()
             {
                 CollectionName = series.titleNoFormatting,
                 CollectionUrl = series.formattedUrl
             }).ToList();
         }
 
-        private async Task<Result[]> Search(string name, string address, string urlType)
+        private async Task<List<Result>> Search(string name, string address, string urlType)
         {
             var result = await _fetchService.GetDataAsync(name, address);
             return result.Where(rs =>
                 rs.formattedUrl.ToLower().Contains(urlType) &&
-                rs.titleNoFormatting.ToLower().Contains((name).ToLower())).ToArray();
+                rs.titleNoFormatting.ToLower().Contains((name).ToLower())).ToList();
         }
     }
 }

@@ -53,7 +53,7 @@ namespace BetterRead.Shared.Domain.Search
         public Metatags metatags { get; set; }
         public CseThumbnail cseThumbnail { get; set; }
     }
-
+    
     public class Result
     {
         public string cacheUrl { get; set; }
