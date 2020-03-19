@@ -5,6 +5,7 @@ using BetterRead.Shared.Domain.Book;
 using Xceed.Document.NET;
 using Xceed.Words.NET;
 using System.Drawing;
+using BetterRead.Shared.Common.Constants;
 using BetterRead.Shared.Common.Helpers;
 
 
@@ -86,13 +87,13 @@ namespace BetterRead.Shared.Services
             var fontSize = 14d;
             var indentation = 4f;
             var bookmarkAnchor = note.Link.Split('#')[^1];
-            if (!note.Text.Contains("Глава"))
+            if (!note.Text.Contains(BooksKeyWords.Сhapter))
             {
                 indentation = 6f;
                 fontSize = 12;
             }
 
-            if (note.Text.Contains("Часть"))
+            if (note.Text.Contains(BooksKeyWords.BookPart))
             {
                 indentation = 0f;
                 fontSize = 19;
